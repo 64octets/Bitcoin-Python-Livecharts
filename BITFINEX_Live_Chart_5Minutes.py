@@ -272,7 +272,30 @@ def toCandle():
 
         time.sleep(8)
 
+
+def simpleMovingAverage(timePeriods):
+    
+    values = []
+    
+    for digit in range(len(candleAr)):
+        values.append(candleAr[digit][2])
+    
+    
+    
+    weights = np.repeat(1.0, timePeriods)/timePeriods
+    smas = np.convolve(values, weights, "valid")
+    return smas
+
+
+
+def dateFunc():
+    dateAr = []
+    for digit in range(len(candleAr)):
+        dateAr.append(candleAr[digit][0])
+    return dateAr
   
+
+ 
 def animate(i):
     
     #Colors
@@ -319,7 +342,7 @@ def animate(i):
     ax1.plot(dateAr[-40:],sma[-40:], color=macdcolor1,linewidth=1.5)
     
     
-    currentBid, currentBidVol, currentAsk, currentAskVol = bid_askTicker()
+    currentBid,  currentAsk = bid_askTicker()
     lastPrice = candleAr[-1]
     lastPrice= lastPrice[2]
     differenceAsk = currentAsk - lastPrice
@@ -345,7 +368,7 @@ def liveGraph():
     
     print "graph."
     
-    fig = plt.figure(facecolor="#07000D", figsize=(20,10))
+    fig = plt.figure(facecolor="#07001A", figsize=(20,10))
 
     plt.subplots_adjust(hspace = 0.00, left = .04, bottom = .04, right = .97, top=.92)
     title = "BITFINEX 5 Minute Candles"
